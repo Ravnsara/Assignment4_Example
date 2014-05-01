@@ -14,6 +14,7 @@ public class Customer
     public string LicenseNumber { set; get; }
     public string VehicleMake { set; get; }
     public string VehicleYear { set; get; }
+    public string PlainPassword { get; set; }
     public byte[] Password { get; set; }
     public int Passcode { get; set; }
 }

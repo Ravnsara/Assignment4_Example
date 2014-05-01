@@ -34,7 +34,7 @@
          <asp:Label ID="Label8" runat="server" Text="Confirm Password: "></asp:Label>
          <asp:TextBox ID="txtConfirm" runat="server" TextMode="Password"></asp:TextBox><br />  
          
-         <asp:Button ID="btnSubmit" runat="server" Text="Submit" />
+         <asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
          <asp:Label ID="lblError" runat="server" Text=""></asp:Label>                 
      </p>
     </div>

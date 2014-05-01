@@ -21,8 +21,8 @@ public class ManageCustomer
     public void WriteCustomer(Customer c) 
     {
         string sqlPerson = "Insert into Person(LastName, FirstName) Values(@LastName, @FirstName)";
-        string sqlVehicle = "Insert into Customer.Vehicle(LicenseNumber, VehicleMake, VehicleYear, Personkey) " + "Values(@LicenseNumber, @VehicleMake, @VehicleYear, identCurrent('Person'))";
-        string sqlRegisteredCustomer = "Insert into customer.RegisteredCustomer(Email, Passcode, Password, CustomerHashedPassword, PersonKey) " + "Values(@Email, @Passcode, @Password, @CustomerHashedPassword, identCurrent('Person'))";
+        string sqlVehicle = "Insert into Customer.Vehicle(LicenseNumber, VehicleMake, VehicleYear, Personkey) " + "Values(@LicenseNumber, @VehicleMake, @VehicleYear, ident_Current('Person'))";
+        string sqlRegisteredCustomer = "Insert into customer.RegisteredCustomer(Email, CustomerPasscode, CustomerPassword, CustomerHashedPassword, PersonKey) " + "Values(@Email, @Passcode, @CustomerPassword, @CustomerHashedPassword, ident_Current('Person'))";
 
         SqlCommand personCmd = new SqlCommand(sqlPerson, connect);
         personCmd.Parameters.AddWithValue("@LastName", c.LastName);
@@ -39,14 +39,14 @@ public class ManageCustomer
 
         SqlCommand regCustomerCmd = new SqlCommand(sqlRegisteredCustomer, connect);
         regCustomerCmd.Parameters.AddWithValue("@Email", c.Email);
-        regCustomerCmd.Parameters.AddWithValue("@Passcode", Passcode);
-        regCustomerCmd.Parameters.AddWithValue("@CustomerPassword", c.Password);
-        regCustomerCmd.Parameters.AddWithValue("@CustomerHashedPassword", ph.HashIt(c.Password.ToString(), Passcode.ToString()));
+        regCustomerCmd.Parameters.AddWithValue("@Passcode", c.Passcode);
+        regCustomerCmd.Parameters.AddWithValue("@CustomerPassword", c.PlainPassword);
+        regCustomerCmd.Parameters.AddWithValue("@CustomerHashedPassword", ph.HashIt(c.PlainPassword.ToString(), Passcode.ToString()));
 
-        connect.Open();
-        personCmd.ExecuteNonQuery();
-        vehicleCmd.ExecuteNonQuery();
-        regCustomerCmd.ExecuteNonQuery();
+        connect.Open();        
+        personCmd.ExecuteNonQuery();        
+        vehicleCmd.ExecuteNonQuery();        
+        regCustomerCmd.ExecuteNonQuery();        
         connect.Close();
     }
 }
