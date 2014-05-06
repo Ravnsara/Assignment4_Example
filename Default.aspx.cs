@@ -23,9 +23,15 @@ public partial class _Default : System.Web.UI.Page
         c.PlainPassword = txtPassword.Text;
 
         ManageCustomer mc = new ManageCustomer();
-        mc.WriteCustomer(c);
-
-        lblError.Text = "Thanks for registering.";
+        try
+        {
+            mc.WriteCustomer(c);
+            lblError.Text = "Thanks for registering.";
+        }
+        catch (Exception ex)
+        {
+            lblError.Text = ex.Message;
+        }               
 
     }
 }
