@@ -16,37 +16,41 @@ public class ManageCustomer
 
 	public ManageCustomer()
 	{
-		connect = new SqlConnection(ConfigurationManager.ConnectionStrings["AutomartConnectionString"].ConnectionString);
+        connect = new SqlConnection(ConfigurationManager.ConnectionStrings["CommunityAssistConnectionString"].ConnectionString);
 	}
     public void WriteCustomer(Customer c) 
     {
-        string sqlPerson = "Insert into Person(LastName, FirstName) Values(@LastName, @FirstName)";
-        string sqlVehicle = "Insert into Customer.Vehicle(LicenseNumber, VehicleMake, VehicleYear, Personkey) " + "Values(@LicenseNumber, @VehicleMake, @VehicleYear, ident_Current('Person'))";
-        string sqlRegisteredCustomer = "Insert into customer.RegisteredCustomer(Email, CustomerPasscode, CustomerPassword, CustomerHashedPassword, PersonKey) " + "Values(@Email, @Passcode, @CustomerPassword, @CustomerHashedPassword, ident_Current('Person'))";
-
-        SqlCommand personCmd = new SqlCommand(sqlPerson, connect);
-        personCmd.Parameters.AddWithValue("@LastName", c.LastName);
-        personCmd.Parameters.AddWithValue("@FirstName", c.FirstName);
-
-        SqlCommand vehicleCmd = new SqlCommand(sqlVehicle, connect);
-        vehicleCmd.Parameters.AddWithValue("@LicenseNumber", c.LicenseNumber);
-        vehicleCmd.Parameters.AddWithValue("@VehicleMake", c.VehicleMake);
-        vehicleCmd.Parameters.AddWithValue("@VehicleYear", c.VehicleYear);
+        string sqlPerson = "Insert into Person(PersonLastName, PersonFirstName,PersonUserName,PersonPlainPassword,Personpasskey,PersonUserPassword,PersonEntryDate) Values(@LastName, @FirstName, @UserName, @PlainPassword, @Passcode, @HashedPassword, DateTime.Now)";
+        string sqlPersonAddress = "Insert into PersonAddress(Street, Apartment, City, State, Zip, Personkey) " + "Values(@Street, @Apartment, @City, @State, @Zip, ident_Current('Person'))";
+        string sqlDonation = "Insert into Donation(DonationAmount, DonationDate, DonationKey) " + "Values(@Donation, DateTime.Now, ident_Current('Donation'))";
 
         PasscodeGenerator pg = new PasscodeGenerator();
         PasswordHash ph = new PasswordHash();
         int Passcode = pg.GetPasscode();
 
-        SqlCommand regCustomerCmd = new SqlCommand(sqlRegisteredCustomer, connect);
-        regCustomerCmd.Parameters.AddWithValue("@Email", c.Email);
-        regCustomerCmd.Parameters.AddWithValue("@Passcode", c.Passcode);
-        regCustomerCmd.Parameters.AddWithValue("@CustomerPassword", c.PlainPassword);
-        regCustomerCmd.Parameters.AddWithValue("@CustomerHashedPassword", ph.HashIt(c.PlainPassword.ToString(), Passcode.ToString()));
+        SqlCommand personCmd = new SqlCommand(sqlPerson, connect);
+        personCmd.Parameters.AddWithValue("@FirstName", c.FirstName);
+        personCmd.Parameters.AddWithValue("@LastName", c.LastName);
+        personCmd.Parameters.AddWithValue("@UserName", c.Email);
+        personCmd.Parameters.AddWithValue("@PlainPassword", c.PlainPassword);
+        personCmd.Parameters.AddWithValue("@Passcode", c.Passcode);
+        personCmd.Parameters.AddWithValue("@HashedPassword", ph.HashIt(c.PlainPassword.ToString(), Passcode.ToString()));
+       
+
+        SqlCommand addressCmd = new SqlCommand(sqlPersonAddress, connect);
+        addressCmd.Parameters.AddWithValue("@Street", c.Street);
+        addressCmd.Parameters.AddWithValue("@Apartment", c.Apartment);
+        addressCmd.Parameters.AddWithValue("@City", c.City);
+        addressCmd.Parameters.AddWithValue("@State", c.State);
+        addressCmd.Parameters.AddWithValue("@Zip", c.Zip);
+     
+        SqlCommand donationCmd = new SqlCommand(sqlDonation, connect);
+        donationCmd.Parameters.AddWithValue("@Donation", c.Donation);
 
         connect.Open();        
         personCmd.ExecuteNonQuery();        
-        vehicleCmd.ExecuteNonQuery();        
-        regCustomerCmd.ExecuteNonQuery();        
+        addressCmd.ExecuteNonQuery();        
+        donationCmd.ExecuteNonQuery();        
         connect.Close();
     }
 }

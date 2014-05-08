@@ -14,24 +14,25 @@ public partial class _Default : System.Web.UI.Page
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
         Customer c = new Customer();
-        c.LastName = txtLastName.Text;
         c.FirstName = txtFirstName.Text;
+        c.LastName = txtLastName.Text;
         c.Email = txtEmail.Text;
-        c.LicenseNumber = txtLicense.Text;
-        c.VehicleMake = txtMake.Text;
-        c.VehicleYear = txtYear.Text;
+        c.Street = txtStreet.Text;
+        c.Apartment = txtApartment.Text;
+        c.City = txtCity.Text;
+        c.State = txtState.Text;
+        c.Zip = txtZip.Text;
+        c.Donation = txtDonation.Text;
         c.PlainPassword = txtPassword.Text;
 
         ManageCustomer mc = new ManageCustomer();
-        try
+       
         {
             mc.WriteCustomer(c);
             lblError.Text = "Thanks for registering.";
         }
-        catch (Exception ex)
-        {
-            lblError.Text = ex.Message;
-        }               
+        
+         
 
     }
 }

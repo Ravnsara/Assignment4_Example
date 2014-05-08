@@ -19,14 +19,23 @@
          <asp:Label ID="Label3" runat="server" Text="Enter Email: "></asp:Label>
          <asp:TextBox ID="txtEmail" runat="server"></asp:TextBox><br />
 
-         <asp:Label ID="Label4" runat="server" Text="Enter License Number: "></asp:Label>
-         <asp:TextBox ID="txtLicense" runat="server"></asp:TextBox><br />
+         <asp:Label ID="Label4" runat="server" Text="Enter Street Address: "></asp:Label>
+         <asp:TextBox ID="txtStreet" runat="server"></asp:TextBox><br />
 
-         <asp:Label ID="Label5" runat="server" Text="Enter Vehicle Make: "></asp:Label>
-         <asp:TextBox ID="txtMake" runat="server"></asp:TextBox><br />
+         <asp:Label ID="Label5" runat="server" Text="Enter Apartment: "></asp:Label>
+         <asp:TextBox ID="txtApartment" runat="server"></asp:TextBox><br />
 
-         <asp:Label ID="Label6" runat="server" Text="Enter Vehicle Year: "></asp:Label>
-         <asp:TextBox ID="txtYear" runat="server"></asp:TextBox><br />
+         <asp:Label ID="Label6" runat="server" Text="Enter City: "></asp:Label>
+         <asp:TextBox ID="txtCity" runat="server"></asp:TextBox><br />
+
+         <asp:Label ID="Label9" runat="server" Text="Enter State: "></asp:Label>
+         <asp:TextBox ID="txtState" runat="server"></asp:TextBox><br />
+
+         <asp:Label ID="Label10" runat="server" Text="Enter Zip Code: "></asp:Label>
+         <asp:TextBox ID="txtZip" runat="server"></asp:TextBox><br />
+
+         <asp:Label ID="Label11" runat="server" Text="Enter Donation Amount: "></asp:Label>
+         <asp:TextBox ID="txtDonation" runat="server"></asp:TextBox><br />
 
          <asp:Label ID="Label7" runat="server" Text="Enter Password: "></asp:Label>
          <asp:TextBox ID="txtPassword" runat="server" TextMode="Password"></asp:TextBox><br />

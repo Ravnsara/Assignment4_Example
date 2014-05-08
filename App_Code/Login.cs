@@ -15,16 +15,16 @@ public class Login
 
 	public Login()
 	{
-        connect = new SqlConnection(ConfigurationManager.ConnectionStrings["AutomartConnectionString"].ConnectionString);
+        connect = new SqlConnection(ConfigurationManager.ConnectionStrings["CommunityAssistConnectionString"].ConnectionString);
 	}
 
     public int ValidateLogin(string user, string pass)
     {
         int result = 0;
         PasswordHash ph = new PasswordHash();
-        string sql = "Select PersonKey, CustomerPassCode, CustomerHashedPassword From Customer.RegisteredCustomer Where Email = @User";
+        string sql = "Select PersonKey, Personpasskey, PersonUserPassword From Person Where PersonUserName = @UserName";
         SqlCommand cmd = new SqlCommand(sql, connect);
-        cmd.Parameters.Add("@User", user);
+        cmd.Parameters.Add("@UserName", user);
 
         SqlDataReader reader;
         int passCode = 0;
@@ -37,9 +37,9 @@ public class Login
         { 
             while(reader.Read())
             {
-            passCode = (int)reader["CustomerPassCode"];
-            originalPassword = (byte[])reader["CustomerHashedPassword"];
-            personKey = (int)reader["PersonKey"];
+                passCode = (int)reader["Personpasskey"];
+                originalPassword = (byte[])reader["PersonUserPassword"];
+                personKey = (int)reader["PersonKey"];
             }
                 
                 byte[] newhash = ph.HashIt(pass, passCode.ToString());
