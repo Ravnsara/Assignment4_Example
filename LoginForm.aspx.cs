@@ -25,4 +25,8 @@ public partial class LoginForm : System.Web.UI.Page
             lblError.Text = "Invalid Login.";
         }
     }
+    protected void lbRegister_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Default.aspx");
+    }
 }

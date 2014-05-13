@@ -20,9 +20,9 @@ public class ManageCustomer
 	}
     public void WriteCustomer(Customer c) 
     {
-        string sqlPerson = "Insert into Person(PersonLastName, PersonFirstName,PersonUserName,PersonPlainPassword,Personpasskey,PersonUserPassword,PersonEntryDate) Values(@LastName, @FirstName, @UserName, @PlainPassword, @Passcode, @HashedPassword, DateTime.Now)";
+        string sqlPerson = "Insert into Person(PersonLastName, PersonFirstName,PersonUserName,PersonPlainPassword,Personpasskey,PersonUserPassword,PersonEntryDate) Values(@LastName, @FirstName, @UserName, @PlainPassword, @Passcode, @HashedPassword, @EntryDate)";
         string sqlPersonAddress = "Insert into PersonAddress(Street, Apartment, City, State, Zip, Personkey) " + "Values(@Street, @Apartment, @City, @State, @Zip, ident_Current('Person'))";
-        string sqlDonation = "Insert into Donation(DonationAmount, DonationDate, DonationKey) " + "Values(@Donation, DateTime.Now, ident_Current('Donation'))";
+        string sqlDonation = "Insert into Donation(DonationAmount, DonationDate, PersonKey) " + "Values(@Donation, @DonDate, ident_Current('Person'))";
 
         PasscodeGenerator pg = new PasscodeGenerator();
         PasswordHash ph = new PasswordHash();
@@ -35,7 +35,7 @@ public class ManageCustomer
         personCmd.Parameters.AddWithValue("@PlainPassword", c.PlainPassword);
         personCmd.Parameters.AddWithValue("@Passcode", c.Passcode);
         personCmd.Parameters.AddWithValue("@HashedPassword", ph.HashIt(c.PlainPassword.ToString(), Passcode.ToString()));
-       
+        personCmd.Parameters.AddWithValue("@EntryDate", DateTime.Now);
 
         SqlCommand addressCmd = new SqlCommand(sqlPersonAddress, connect);
         addressCmd.Parameters.AddWithValue("@Street", c.Street);
@@ -46,6 +46,8 @@ public class ManageCustomer
      
         SqlCommand donationCmd = new SqlCommand(sqlDonation, connect);
         donationCmd.Parameters.AddWithValue("@Donation", c.Donation);
+        donationCmd.Parameters.AddWithValue("@DonDate", DateTime.Now);
+
 
         connect.Open();        
         personCmd.ExecuteNonQuery();        

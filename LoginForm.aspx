@@ -30,8 +30,9 @@
                     <asp:Label ID="lblError" runat="server" Text=""></asp:Label>
                 </td>                               
             </tr>
+            
         </table>
-        <asp:LinkButton ID="lbRegister" runat="server" PostBackUrl="~/Default.aspx" >Register</asp:LinkButton>
+        <asp:LinkButton ID="lbRegister" runat="server" PostBackUrl="~/Default.aspx" OnClick="lbRegister_Click" >Register</asp:LinkButton>
     </div>
     </form>
 </body>
